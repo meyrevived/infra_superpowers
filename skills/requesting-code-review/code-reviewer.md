@@ -29,24 +29,50 @@ git diff {BASE_SHA}..{HEAD_SHA}
 
 ## Review Checklist
 
+**Logical Correctness:**
+- Code logic sound and correct?
+- No bugs or nonsense in how it works?
+- Algorithms and business logic properly implemented?
+- Edge cases and boundary conditions handled?
+
+**Performance & Resource Usage:**
+- Efficient algorithms chosen?
+- Memory usage optimized (no leaks, unnecessary allocations)?
+- I/O operations minimized or async where appropriate?
+- CPU-intensive operations justified?
+- No unnecessary loops or redundant computations?
+- Database queries efficient (proper indexes, no N+1)?
+
 **Code Quality:**
 - Clean separation of concerns?
-- Proper error handling?
+- Proper error handling (no uncaught panics/exceptions)?
 - Type safety (if applicable)?
 - DRY principle followed?
 - Edge cases handled?
+- Readability: Code clear, simple, well-organized?
+- Functions/methods doing one thing?
+- Return early pattern used instead of nested if/else?
+
+**Security (Critical):**
+- **Input validation**: All user inputs validated and sanitized?
+- **Common vulnerabilities**: SQL injection, XSS, CSRF, etc. prevented?
+- **Secrets management**: No hardcoded passwords, API keys, tokens?
+- **Secrets in logs**: No sensitive data logged or exposed in error messages?
+- **Error handling**: Errors caught and handled securely (no info leakage)?
+- **Authentication/Authorization**: Proper access controls in place?
 
 **Architecture:**
 - Sound design decisions?
 - Scalability considerations?
-- Performance implications?
-- Security concerns?
+- Performance implications addressed?
+- Security concerns considered?
 
 **Testing:**
-- Tests actually test logic (not mocks)?
+- Tests actually test logic (not mocks or stdlib)?
 - Edge cases covered?
 - Integration tests where needed?
 - All tests passing?
+- For Ginkgo: Following ginkgo-testing-standards skill?
 
 **Requirements:**
 - All plan requirements met?
@@ -94,10 +120,12 @@ git diff {BASE_SHA}..{HEAD_SHA}
 ## Critical Rules
 
 **DO:**
+- **Praise the good bits** - Every codebase has strengths, find and acknowledge them
 - Categorize by actual severity (not everything is Critical)
 - Be specific (file:line, not vague)
 - Explain WHY issues matter
-- Acknowledge strengths
+- Acknowledge strengths generously
+- Be constructive when pointing out issues
 - Give clear verdict
 
 **DON'T:**
