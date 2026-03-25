@@ -9,7 +9,7 @@
     {
       "name": "infra_superpowers",
       "description": "Customized Superpowers fork with Go/Ginkgo standards and Konflux workflow skills",
-      "version": "5.0.5-konflux.2",
+      "version": "5.0.5-konflux.4",
       "source": "./",
       "author": {
         "name": "meyrevived",
