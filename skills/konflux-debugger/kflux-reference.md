@@ -1,6 +1,6 @@
 # kflux CLI Reference
 
-Quick reference for all `kflux` commands, flags, and permission tiers.
+Quick reference for all `./kflux` commands, flags, and permission tiers.
 
 ---
 
@@ -20,11 +20,11 @@ Quick reference for all `kflux` commands, flags, and permission tiers.
 
 | Command | Description |
 |---------|-------------|
-| `kflux version` | Print CLI version |
-| `kflux cluster list` | List all Konflux clusters |
-| `kflux cluster login` | Login to all Konflux clusters (requires chromedriver) |
+| `./kflux version` | Print CLI version |
+| `./kflux cluster list` | List all Konflux clusters |
+| `./kflux cluster login` | Login to all Konflux clusters (requires chromedriver) |
 
-#### `kflux cluster list`
+#### `./kflux cluster list`
 
 | Flag | Description |
 |------|-------------|
@@ -47,7 +47,7 @@ prd-es01    kflux-prd-es01.1ion.p1.openshiftapps.com
 ]
 ```
 
-#### `kflux cluster login`
+#### `./kflux cluster login`
 
 | Flag | Description |
 |------|-------------|
@@ -57,7 +57,7 @@ prd-es01    kflux-prd-es01.1ion.p1.openshiftapps.com
 **Mac alternative** (avoids chromedriver browser popup):
 
 ```bash
-kinit --keychain <userid>@IPA.REDHAT.COM && kflux cluster login
+kinit --keychain <userid>@IPA.REDHAT.COM && ./kflux cluster login
 ```
 
 **Note:** When this command is needed, prompt the engineer for their userid. Never store or save the userid anywhere.
@@ -68,10 +68,10 @@ kinit --keychain <userid>@IPA.REDHAT.COM && kflux cluster login
 
 | Command | Description |
 |---------|-------------|
-| `kflux mpc debug` | Create a debug pod in multi-platform-controller namespace |
-| `kflux mpc debug --cleanup` | List and delete all existing debug pods |
+| `./kflux mpc debug` | Create a debug pod in multi-platform-controller namespace |
+| `./kflux mpc debug --cleanup` | List and delete all existing debug pods |
 
-#### `kflux mpc debug`
+#### `./kflux mpc debug`
 
 Creates a debug pod with SSH keys for connecting to multi-arch build VMs. Supported architectures: amd64, arm64, s390x, ppc64le. Pod is automatically cleaned up on exit.
 
@@ -85,7 +85,7 @@ Creates a debug pod with SSH keys for connecting to multi-arch build VMs. Suppor
 
 | Command | Description |
 |---------|-------------|
-| `kflux adm prune` | Prune old PipelineRuns. **DESTRUCTIVE — NEVER RUN.** |
+| `./kflux adm prune` | Prune old PipelineRuns. **DESTRUCTIVE — NEVER RUN.** |
 
 | Flag | Description |
 |------|-------------|
@@ -104,7 +104,7 @@ Creates a debug pod with SSH keys for connecting to multi-arch build VMs. Suppor
 ### Iterate over all clusters
 
 ```bash
-for cluster in $(kflux cluster list | awk '{print $1}'); do
+for cluster in $(./kflux cluster list | awk '{print $1}'); do
   echo "Processing $cluster"
 done
 ```
@@ -112,5 +112,5 @@ done
 ### Filter clusters by kind with jq
 
 ```bash
-kflux cluster list -f json | jq -r '.[] | select(.kind == "ROSA") | .name'
+./kflux cluster list -f json | jq -r '.[] | select(.kind == "ROSA") | .name'
 ```

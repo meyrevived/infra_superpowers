@@ -55,13 +55,13 @@ oc get, oc describe, oc logs, oc whoami, oc project, oc explain, oc get events, 
 kubectl get, kubectl describe, kubectl logs, kubectl top pods, 
 tkn pipelinerun list, tkn pipelinerun describe, tkn pipelinerun logs
 tkn taskrun list, tkn taskrun describe, tkn taskrun logs
-kflux version, kflux cluster list, kflux cluster login
+./kflux version, ./kflux cluster list, ./kflux cluster login
 ```
 
 ### Gated Commands (require explicit engineer confirmation each time)
 
 ```
-kflux mpc debug    # Creates a debug pod, auto-cleans on exit
+./kflux mpc debug    # Creates a debug pod, auto-cleans on exit
 kubectl auth can-i create pods --as=system:serviceaccount:<namespace>:<sa-name> # Used for debugging permission errors 
 ```
 
@@ -73,7 +73,7 @@ Ask: "This will create a temporary debug pod. Confirm to proceed?"
 oc delete, oc patch, oc apply, oc create, oc edit, oc label,
 oc scale, oc annotate, oc rollout, oc adm
 kubectl delete, kubectl patch, kubectl apply, kubectl create, kubectl edit
-kflux adm prune
+./kflux adm prune
 Any helm, argocd, or gitops write commands
 ```
 
@@ -125,13 +125,15 @@ Read `outage-detection.md` for outage symptom signatures to pattern-match agains
 
 Identify the target cluster and verify access.
 
-Read `kflux-reference.md` for cluster identification and `kflux cluster login` procedures.
+Read `kflux-reference.md` for cluster identification and `./kflux cluster login` procedures.
+Read `evidence-collection.md` for evidence directory setup -- create the evidence directory in this phase.
 
 **Steps:**
 1. Identify cluster from triage data (namespace prefix, URL, or explicit mention)
-2. Run `oc whoami` to check current auth
-3. If wrong cluster or expired: `kflux cluster login <cluster-name>`
-4. Verify: `oc project <namespace>`
+2. Create the evidence directory (see `evidence-collection.md`)
+3. Run `oc whoami` to check current auth
+4. If wrong cluster or expired: `./kflux cluster login <cluster-name>`
+5. Verify: `oc project <namespace>`
 
 **If auth fails:** Do NOT proceed. Report the auth failure to the engineer and wait for resolution. Never attempt workarounds.
 
@@ -152,6 +154,8 @@ Read `outage-detection.md` for outage signatures, health check commands, and par
 
 Gather evidence using read-only commands. Every command must be on the allowlist.
 
+All command output in this phase MUST be captured to the evidence directory. See `evidence-collection.md` for capture format.
+
 Read `cluster-investigation-commands.md` for command recipes organized by investigation phase.
 Read `common-failure-patterns.md` for known failure categories and diagnosis pathways.
 
@@ -171,6 +175,8 @@ The head session synthesizes both subagents' findings before proceeding to DIAGN
 ### Phase 5: DIAGNOSE
 
 Correlate findings from Phase 4 into a root cause assessment.
+
+Before diagnosing, curate the evidence directory: delete files that provided no diagnostic value, keep files that support or rule out hypotheses. Generate `MANIFEST.md`. See `evidence-collection.md` for curation criteria.
 
 Cross-reference findings against `common-failure-patterns.md` for known root cause patterns.
 
@@ -209,6 +215,8 @@ If escalation is needed, read `escalation-contacts.md` for teams and channels.
 - Include exact commands the user can copy-paste
 - If escalating, name the specific team and channel
 - Avoid blame language -- focus on what happened and what to do next
+
+**Evidence trail:** After the response body, list all remaining evidence files and the evidence directory path. See `evidence-collection.md` for the format.
 
 **After drafting, always ask:**
 "Want me to adjust the tone, add detail, or investigate further before you post this?"
@@ -267,6 +275,7 @@ These files contain detailed reference material for each phase. They are loaded 
 | `pipeline-failures-aids.md` | 4: INVESTIGATE | Decision trees, troubleshooting workflows, common confusion patterns for pipeline failures |
 | `repo-management.md` | 4: INVESTIGATE | konflux-ci repo catalog, clone/pull logic, issue-to-repo mapping |
 | `escalation-contacts.md` | 5: DIAGNOSE, 6: RESPOND | Teams, Slack handles, when to escalate vs keep digging |
+| `evidence-collection.md` | 2: AUTHENTICATE, 4: INVESTIGATE, 5: DIAGNOSE, 6: RESPOND | Evidence directory setup, output capture, curation, and reporting |
 
 ## Related Skills
 
