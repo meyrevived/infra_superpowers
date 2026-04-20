@@ -1,7 +1,7 @@
 {
   "name": "infra_superpowers",
   "description": "Customized Superpowers fork with Go/Ginkgo standards and Konflux workflow skills",
-  "version": "5.0.5-konflux.4",
+  "version": "5.0.7-konflux.1",
   "author": {
     "name": "meyrevived",
     "email": "mrath@redhat.com"
@@ -12,6 +12,6 @@
   "keywords": ["skills", "tdd", "debugging", "collaboration", "best-practices", "workflows", "go", "ginkgo", "konflux"],
   "upstream": {
     "repository": "https://github.com/obra/superpowers",
-    "version": "5.0.5"
+    "version": "5.0.7"
   }
 }

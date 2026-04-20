@@ -61,12 +61,11 @@ git check-ignore -q .worktrees 2>/dev/null || git check-ignore -q worktrees 2>/d
 
 **If NOT ignored:**
 
-Per Jesse's rule "Fix broken things immediately":
 1. Add appropriate line to .gitignore
-2. Commit the change
+2. Inform the user that `.gitignore` needs committing — leave committing to the user
 3. Proceed with worktree creation
 
-**Why critical:** Prevents accidentally committing worktree contents to repository.
+**Why critical:** Prevents accidentally tracking worktree contents in the repository.
 
 ### For Global Directory (~/.config/superpowers/worktrees)
 
@@ -149,7 +148,7 @@ Ready to implement <feature-name>
 | `worktrees/` exists | Use it (verify ignored) |
 | Both exist | Use `.worktrees/` |
 | Neither exists | Check CLAUDE.md → Ask user |
-| Directory not ignored | Add to .gitignore + commit |
+| Directory not ignored | Add to .gitignore, tell user to commit |
 | Tests fail during baseline | Report failures + ask |
 | No package.json/Cargo.toml | Skip dependency install |
 
@@ -214,5 +213,4 @@ Ready to implement auth feature
 - **executing-plans** - REQUIRED before executing any tasks
 - Any skill needing isolated workspace
 
-**Pairs with:**
-- **finishing-a-development-branch** - REQUIRED for cleanup after work complete
+**Note:** All committing, merging, and branch cleanup is left to the user.
