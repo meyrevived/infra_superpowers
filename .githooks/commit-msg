@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+COMMIT_MSG_FILE=$1
+
+# If the commit message is fixup! or squash! or Merge, exit without changing it.
+grep -qE '^(fixup!|squash!|Merge)' "$COMMIT_MSG_FILE" && exit 0
+
+# Use a fixed trailer string.
+TRAILER="Assisted-by: Claude Code"
+
+# Add the trailer if it doesn't already exist.
+grep -qs "^$TRAILER" "$COMMIT_MSG_FILE" ||
+
+git interpret-trailers --in-place --trailer "$TRAILER" "$COMMIT_MSG_FILE"
