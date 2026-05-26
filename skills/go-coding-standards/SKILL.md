@@ -199,7 +199,7 @@ Deeply nested, hard to follow
 
 ### Mistake: Not Abstracting Common Patterns
 
-**Fix:** When you see the same code 3+ times, create a helper
+**Fix:** When you see the same code 2+ times, create a helper
 
 ## Better Approach Checklist
 
