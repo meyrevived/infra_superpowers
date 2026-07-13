@@ -109,10 +109,12 @@ Read `outage-detection.md` for outage symptom signatures to pattern-match agains
 1. Parse the input and extract: user, namespace, component, cluster, timestamps, error messages
 2. Classify the issue (build failure, pipeline error, access issue, outage, release failure)
 3. Check error messages against outage signatures from `outage-detection.md`
-4. **Present your understanding to the engineer:**
+4. If the issue involves networking or egress, fetch `https://gitlab.cee.redhat.com/konflux/docs/users/-/raw/main/modules/cluster-info/pages/cluster-info.adoc` and check the cluster's network profile (public vs private) and documented caveats.
+5. If the issue involves secrets, SecretStore, or ExternalSecret, fetch `https://gitlab.cee.redhat.com/konflux/docs/sop/-/raw/main/infra/vault.md` and check the vault architecture (internal vs external vault, replication model).
+6. **Present your understanding to the engineer:**
    - "Here's what I think this thread is about: [summary]. Do you agree, or should I re-read?"
-5. **Wait for engineer agreement.** If the engineer disagrees, re-parse with their guidance and present again
-6. Only proceed to Phase 2 once the engineer confirms your understanding
+7. **Wait for engineer agreement.** If the engineer disagrees, re-parse with their guidance and present again
+8. Only proceed to Phase 2 once the engineer confirms your understanding
 
 **Outputs (after engineer agreement):**
 - User, namespace, component, cluster, timestamps

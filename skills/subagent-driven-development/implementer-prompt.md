@@ -14,7 +14,29 @@ Task tool (general-purpose):
 
     ## Context
 
-    [Scene-setting: where this fits, dependencies, architectural context]
+    [Scene-setting: where this fits, dependencies, architectural context.
+    
+    CONTROLLER — before dispatching, you MUST include ALL of the following
+    that exist for this task:
+    
+    1. **Design doc excerpts:** If the plan references a design doc, spec, or
+       workflow document, include the relevant sections verbatim. The subagent
+       cannot read the plan header or know what documents exist.
+    2. **Companion document content:** If the task creates or modifies a file
+       that must conform to a design (e.g., a skill file matching a workflow
+       spec), paste the spec/requirements the output must satisfy.
+    3. **Workflow context:** If the task's output participates in a larger
+       workflow (CI pipeline, multi-session debug loop, user-facing process),
+       describe that workflow so the subagent builds the right thing.
+    4. **Referenced file content:** If the task says "based on X" or
+       "similar to Y," include the content of X/Y — don't assume the
+       subagent will find it.
+    5. **Constraints from the user:** Any user corrections, preferences,
+       or standing instructions that affect this task's output.
+    
+    A subagent that builds the right code but misses the workflow context
+    produces output that must be rewritten. This is the most common
+    dispatch failure — prevent it here.]
 
     ## Before You Begin
 

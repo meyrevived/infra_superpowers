@@ -119,6 +119,21 @@ Implementer subagents report one of four statuses. Handle each appropriately:
 
 **Never** ignore an escalation or force the same model to retry without changes. If the implementer said it's stuck, something needs to change.
 
+## Context Preparation (before each dispatch)
+
+Before dispatching any implementer subagent, assemble its context packet. This is the most common failure point — a subagent that receives the task text but not the surrounding context produces output that must be rewritten.
+
+**Checklist — include all that apply:**
+
+1. **Design docs:** If the plan header references a design doc, spec, or workflow document, read the relevant sections and paste them into the subagent's Context block. The subagent cannot see the plan header.
+2. **Companion documents:** If the task creates a file that must conform to a spec (e.g., a skill file matching a workflow design), include that spec verbatim.
+3. **Workflow context:** If the task's output participates in a larger process (CI pipeline, multi-session debug loop, user-facing workflow), describe the process. "Build a skill" without knowing the skill operates across session boundaries produces the wrong skill.
+4. **Referenced files:** If the task says "based on X" or "reuse patterns from Y," read X/Y and include relevant content. Do not assume the subagent will find it.
+5. **User corrections:** Any user feedback from this session that affects the task's output. Standing instructions from memory that are relevant.
+6. **Sibling task outputs:** If this task depends on a completed sibling's output, summarize what was produced.
+
+**Smell test:** If you are about to dispatch a subagent to create a document, skill, or config file, and your Context block is shorter than the Task Description block, you are likely missing context. The subagent needs to understand WHY and HOW, not just WHAT.
+
 ## Prompt Templates
 
 - `./implementer-prompt.md` - Dispatch implementer subagent
