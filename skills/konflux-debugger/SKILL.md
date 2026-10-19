@@ -1,6 +1,7 @@
 ---
 name: konflux-debugger
 description: Use when investigating Konflux user support threads, Slack escalations, build failures, pipeline errors, or platform incidents requiring read-only cluster investigation
+model: opus
 ---
 
 # Konflux Debugger
@@ -22,7 +23,7 @@ Investigate Konflux support threads systematically: parse the problem, authentic
 ## Input
 
 This skill receives one of:
-- A raw text Slack thread dump (copy-pasted from a support channel)
+- A Slack thread link (e.g., `https://redhat.enterprise.slack.com/archives/C04FDFTF8RL/p1721744023456789`)
 - The engineer's freeform description of a problem they're working on in a support thread
 
 The input starts with `/infra-superpowers:konflux-debugger`.
@@ -101,12 +102,32 @@ TRIAGE -> AUTHENTICATE -> [OUTAGE CHECK] -> INVESTIGATE -> DIAGNOSE -> RESPOND
 
 ### Phase 1: TRIAGE
 
-Parse the Slack thread and extract structured data before running any commands.
+Fetch (if needed) and parse the Slack thread to extract structured data before running any commands.
+
+**Step 0 — Fetch the thread (when input contains a Slack link):**
+
+If the input contains a Slack thread link, fetch the thread content using the Slack MCP before parsing:
+
+1. Extract `channel_id` and `thread_ts` from the URL path (ignore any query parameters like `?thread_ts=...&cid=...`):
+   - Link format: `https://<workspace>.slack.com/archives/<channel_id>/p<timestamp>` (also valid with `/messages/` instead of `/archives/`)
+   - `channel_id`: the path segment after `/archives/` or `/messages/` (e.g., `C04FDFTF8RL`)
+   - `thread_ts`: remove the `p` prefix from the timestamp and insert a `.` before the last 6 digits (e.g., `p1721744023456789` → `1721744023.456789`)
+2. Call the Slack MCP `get_thread` tool:
+   ```
+   get_thread(channel_id="<channel_id>", thread_ts="<thread_ts>")
+   ```
+3. If `get_thread` returns only one message with no replies, inform the engineer: "This link points to a single message, not a thread. Is there a thread link, or should I work from this message alone?"
+4. If the Slack MCP tools are not available in this session, inform the engineer and ask them to paste the thread content directly.
+5. If the fetch fails for any other reason, report the error to the engineer and wait for guidance. Do not guess thread content.
+
+If the input is a freeform description (no Slack link), skip Step 0 and proceed directly to parsing.
+
+**Step 1 — Parse and classify:**
 
 Read `outage-detection.md` for outage symptom signatures to pattern-match against.
 
 **Engineer Review Loop:**
-1. Parse the input and extract: user, namespace, component, cluster, timestamps, error messages
+1. Parse the thread content (fetched or described) and extract: user, namespace, component, cluster, timestamps, error messages
 2. Classify the issue (build failure, pipeline error, access issue, outage, release failure)
 3. Check error messages against outage signatures from `outage-detection.md`
 4. If the issue involves networking or egress, fetch `https://gitlab.cee.redhat.com/konflux/docs/users/-/raw/main/modules/cluster-info/pages/cluster-info.adoc` and check the cluster's network profile (public vs private) and documented caveats.

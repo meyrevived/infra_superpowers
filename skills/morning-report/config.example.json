@@ -1,0 +1,34 @@
+{
+  "slack": {
+    "channels": ["#engineering", "#product", "#general"],
+    "excludeChannels": ["#random", "#watercooler"]
+  },
+  "jira": {
+    "projects": [],
+    "customQueries": [
+      {
+        "name": "My Recent Updates",
+        "jql": "assignee = currentUser() AND updated >= -24h ORDER BY updated DESC"
+      },
+      {
+        "name": "In Review",
+        "jql": "status = 'In Review' AND (assignee = currentUser() OR reporter = currentUser()) ORDER BY updated DESC"
+      }
+    ]
+  },
+  "email": {
+    "excludeSenders": ["noreply@", "notifications@", "no-reply@", "jira@", "github@"],
+    "importantSenders": [],
+    "customQueries": [
+      {
+        "name": "Unread Team Emails",
+        "query": "is:unread from:@redhat.com -from:noreply@ -category:promotions newer_than:1d"
+      },
+      {
+        "name": "Important Messages",
+        "query": "(is:important OR is:starred) newer_than:1d"
+      }
+    ]
+  },
+  "timeWindow": "24h"
+}

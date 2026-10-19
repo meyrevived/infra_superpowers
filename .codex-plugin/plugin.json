@@ -1,6 +1,6 @@
 {
-  "name": "superpowers",
-  "version": "5.1.0",
+  "name": "infra_superpowers",
+  "version": "5.1.0+codex.20260911161301",
   "description": "An agentic skills framework & software development methodology that works: planning, TDD, debugging, and collaboration workflows.",
   "author": {
     "name": "Jesse Vincent",
